@@ -8,7 +8,7 @@ TITLE = "Hayvan Avcısı"
 arkaplan = Actor("arkaplan")
 zurafa = Actor("zürafa", (150, 250))
 puan = 0
-artis_miktari = 1
+artis_miktari = 100
 
 bonus1 = Actor("bonus", (450, 100))
 bonus2 = Actor("bonus", (450, 200))
@@ -32,5 +32,18 @@ def on_mouse_down(button, pos):
             zurafa.y = 200
             animate(zurafa, tween='bounce_end', duration=0.5, y=250)
             
+        if bonus1.collidepoint(pos) and puan >= 15:
+            schedule_interval(bonus_1_icin, 2)
+            puan = puan - 15
+            
+        if bonus2.collidepoint(pos) and puan >= 200:
+            schedule_interval(bonus_2_icin, 2)
+            puan = puan - 200
+        
+def bonus_1_icin():
+    global puan
+    puan += 1
     
-
+def bonus_2_icin():
+    global puan
+    puan += 15
