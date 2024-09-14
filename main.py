@@ -13,7 +13,7 @@ bonus_1 = Actor("bonus", (450, 100))
 bonus_2 = Actor("bonus", (450, 200))
 oyna = Actor("oyna", (300, 100))
 carpi = Actor("çarpı", (580, 20))
-dukkan = Actor("dükkan", (300, 200))
+dukkan = Actor("mağaza", (300, 200))
 koleksiyon = Actor("koleksiyon", (300, 300))
 
 # Değişkenler
