@@ -2,59 +2,82 @@
 
 WIDTH = 600
 HEIGHT = 400
-FPS = 30
-TITLE = "Hayvan Avcısı"
 
+TITLE = "Hayvan Avcısı"
+FPS = 30
+
+# Nesneler
+hayvan = Actor("zürafa", (150, 250))
 arkaplan = Actor("arkaplan")
-zurafa = Actor("zürafa", (150, 250))
-puan = 0
-artis_miktari = 1000
-mod = "menu"
-bonus1 = Actor("bonus", (450, 100))
-bonus2 = Actor("bonus", (450, 200))
+bonus_1 = Actor("bonus", (450, 100))
+bonus_2 = Actor("bonus", (450, 200))
 oyna = Actor("oyna", (300, 100))
+carpi = Actor("çarpı", (580, 20))
+dukkan = Actor("dükkan", (300, 200))
+koleksiyon = Actor("koleksiyon", (300, 300))
+
+# Değişkenler
+puan = 0
+tiklama = 1
+mod = 'menü'
 
 def draw():
-    if mod == "menu":
+    if mod == 'menü':
         arkaplan.draw()
         oyna.draw()
-        screen.draw.text(puan, center=(30, 30), color="white", fontsize=30)
-    if mod == "oyun":
+        screen.draw.text(puan, center=(30, 20), color="white", fontsize = 36)
+        dukkan.draw()
+        koleksiyon.draw()
+   
+    elif mod == 'oyun':    
         arkaplan.draw()
-        zurafa.draw()
-        screen.draw.text(puan, center=(150, 100), color="white", fontsize=96)
-        bonus1.draw()
-        bonus2.draw()
-        screen.draw.text("Her 2 saniye 1$", center=(450, 75), color="black", fontsize=19)
-        screen.draw.text("Ücret: 15 Puan", center=(450, 110), color="black", fontsize=19)
-        screen.draw.text("Her 2 saniye 15$", center=(450, 175), color="black", fontsize=19)
-        screen.draw.text("Ücret: 200 Puan", center=(450, 210), color="black", fontsize=19)
+        hayvan.draw()
+        screen.draw.text(puan, center=(150, 100), color="white", fontsize = 96)
+        bonus_1.draw()
+        screen.draw.text("Her 2 saniye için 1$", center=(450, 80), color="black", fontsize = 20)
+        screen.draw.text("Ücret : 15$", center=(450, 110), color="black", fontsize = 20)
+        bonus_2.draw()
+        screen.draw.text("Her 2 saniye için 15$", center=(450, 180), color="black", fontsize = 20)
+        screen.draw.text("Ücret : 50$", center=(450, 210), color="black", fontsize = 20)
+        carpi.draw()
+
+def bonus_1_icin():
+    global puan
+    puan += 1
+
+def bonus_2_icin():
+    global puan
+    puan += 15
 
 def on_mouse_down(button, pos):
     global puan
     global mod
-    if button == mouse.LEFT:
+    # Oyun Modu
+    if button == mouse.LEFT and mod == "oyun":
+         # Hayvanın üzerinde tıklama
+        if hayvan.collidepoint(pos):
+            puan += tiklama
+            hayvan.y = 200
+            animate(hayvan, tween='bounce_end', duration=0.5, y=250)
+        # bonus_1 butonu tıklandığında  
+        elif bonus_1.collidepoint(pos):
+            if puan >= 15:
+                schedule_interval(bonus_1_icin, 2)
+                puan -= 15
+         # bonus_2 butonu tıklandığında 
+        elif bonus_2.collidepoint(pos):
+            if puan >= 50:
+                schedule_interval(bonus_2_icin, 2)
+                puan -= 50
+        # Menu mode
+        elif carpi.collidepoint(pos):
+            mod = 'menü'
+    # Menü Modu
+    elif mod == 'menü' and button == mouse.LEFT:
         if oyna.collidepoint(pos):
-            mod = "oyun"
+            mod = 'oyun'
+
             
-        # eger carpiya tiklarsak modu menu yapcaz
-        if zurafa.collidepoint(pos):
-            puan += artis_miktari
-            zurafa.y = 200
-            animate(zurafa, tween='bounce_end', duration=0.5, y=250)
             
-        if bonus1.collidepoint(pos) and puan >= 15:
-            schedule_interval(bonus_1_icin, 2)
-            puan = puan - 15
             
-        if bonus2.collidepoint(pos) and puan >= 200:
-            schedule_interval(bonus_2_icin, 2)
-            puan = puan - 200
-        
-def bonus_1_icin():
-    global puan
-    puan += 1
-    
-def bonus_2_icin():
-    global puan
-    puan += 15
+            
