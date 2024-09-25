@@ -18,7 +18,7 @@ magaza = Actor("mağaza", (300, 200))
 koleksiyon = Actor("koleksiyon", (300, 300))
 timsah = Actor("timsah", (120, 200))
 suaygiri = Actor("suaygırı", (300, 200))
-
+denizayisi = Actor("denizayısı", (480, 200))
 # Değişkenler
 puan = 0
 tiklama = 1000
@@ -58,6 +58,7 @@ def draw():
         screen.draw.text("7000$", center= (480, 300), color="white", fontsize = 36)
         screen.draw.text("500$", center= (120, 300), color="white", fontsize = 36)
         suaygiri.draw()
+        denizayisi.draw()
         
         screen.draw.text("2500$", center= (300, 300), color="white", fontsize = 36)
         carpi.draw()
@@ -148,6 +149,13 @@ def on_mouse_down(button, pos):
             puan -= 2500
             tiklama = 3
             hayvanlar.append(suaygiri)
+
+        elif denizayisi.collidepoint(pos) and puan >= 5000 and denizayisi not in hayvanlar:
+            hayvan.image = denizayisi.image
+            puan -= 5000
+            tiklama = 5
+            hayvanlar.append(denizayisi)
+                
                 
     # Koleksiyon
     elif  mod == 'koleksiyon' and button == mouse.LEFT:
@@ -164,8 +172,11 @@ def on_mouse_down(button, pos):
             if suaygiri in hayvanlar:
                 tiklama = 3
                 hayvan.image = 'suaygırı' 
-            
 
+        elif denizayisi.collidepoint(pos):
+            if denizayisi in hayvanlar:
+                tiklama = 5
+                hayvan.image = 'denizayısı' 
 
 
                 
