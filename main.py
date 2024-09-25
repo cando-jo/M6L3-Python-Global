@@ -16,8 +16,8 @@ oyna = Actor("oyna", (300, 100))
 carpi = Actor("çarpı", (580, 20))
 magaza = Actor("mağaza", (300, 200))
 koleksiyon = Actor("koleksiyon", (300, 300))
-timsah = Actor('timsah', (120, 200))
-suaygiri = Actor('suaygırı', (300, 200))
+timsah = Actor("timsah", (120, 200))
+suaygiri = Actor("suaygırı", (300, 200))
 
 # Değişkenler
 puan = 0
@@ -32,7 +32,7 @@ def draw():
     if mod == 'menü':
         arkaplan.draw()
         oyna.draw()
-        screen.draw.text(puan, center=(30, 20), color="white", fontsize = 36)
+        screen.draw.text(puan, center=(50, 20), color="white", fontsize = 36)
         magaza.draw()
         koleksiyon.draw()
    
@@ -58,16 +58,17 @@ def draw():
         screen.draw.text("7000$", center= (480, 300), color="white", fontsize = 36)
         screen.draw.text("500$", center= (120, 300), color="white", fontsize = 36)
         suaygiri.draw()
+        
         screen.draw.text("2500$", center= (300, 300), color="white", fontsize = 36)
         carpi.draw()
-        screen.draw.text(puan, center=(30, 20), color="white", fontsize = 36)
+        screen.draw.text(puan, center=(50, 20), color="white", fontsize = 36)
     
     elif mod == 'koleksiyon':
         arkaplan.draw()
         for i in range(len(hayvanlar)):
             hayvanlar[i].draw()
         carpi.draw()
-        screen.draw.text(puan, center=(30, 20), color="white", fontsize = 36)
+        screen.draw.text(puan, center=(50, 20), color="white", fontsize = 36)
         screen.draw.text("+2$", center= (120, 300), color="white", fontsize = 36)
         screen.draw.text("+3$", center= (300, 300), color="white", fontsize = 36)
         screen.draw.text("+4$", center= (480, 300), color="white", fontsize = 36)
@@ -135,21 +136,18 @@ def on_mouse_down(button, pos):
     elif  mod == 'mağaza' and button == mouse.LEFT:
         if carpi.collidepoint(pos):
             mod = 'menü'
-        # Timsahın Seçilmesi
-        elif timsah.collidepoint(pos):
-            if puan >= 500:
-                puan -= 500
-                tiklama = 2
-                hayvan.image = 'timsah'
-                hayvanlar.append(timsah)
-        # Su Aygırının Seçilmesi  
-        elif suaygiri.collidepoint(pos):
-            if puan >= 2500:
-                puan -= 2500
-                tiklama = 3
-                hayvan.image = 'suaygırı'
-                hayvanlar.append(suaygiri)
 
+        elif timsah.collidepoint(pos) and puan >= 500 and timsah not in hayvanlar:
+            hayvan.image = timsah.image
+            puan -= 500
+            tiklama = 2
+            hayvanlar.append(timsah)
+
+        elif suaygiri.collidepoint(pos) and puan >= 2500 and suaygiri not in hayvanlar:
+            hayvan.image = suaygiri.image
+            puan -= 2500
+            tiklama = 3
+            hayvanlar.append(suaygiri)
                 
     # Koleksiyon
     elif  mod == 'koleksiyon' and button == mouse.LEFT:
@@ -165,9 +163,9 @@ def on_mouse_down(button, pos):
         elif suaygiri.collidepoint(pos):
             if suaygiri in hayvanlar:
                 tiklama = 3
-                hayvan.image = 'suaygırı'
+                hayvan.image = 'suaygırı' 
+            
 
-                
-                
-                
+
+
                 
